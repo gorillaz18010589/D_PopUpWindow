@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+
 public class MainActivity extends AppCompatActivity {
     private LinearLayout lin;
 
@@ -33,17 +35,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void test() {
-        PopupWindowUtils popupWindowUtils = new PopupWindowUtils(this,lin,R.layout.top_navigation);
+        PopupWindowUtils popupWindowUtils = new PopupWindowUtils(this, lin, R.layout.top_navigation);
         View layoutView = popupWindowUtils.getLayoutView();
         final Button btn1 = layoutView.findViewById(R.id.btn1);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 btn1.setText("哈摟");
-                Log.v("hank","btn1");
+                Log.v("hank", "btn1");
             }
         });
         popupWindowUtils.showLocation(Gravity.TOP);
+
+        AnimationViewUtils.getInstance().initShadow(getWindow());
+        StatusBarUtils.setStatusBarColor(this,Color.RED);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+
+
     }
 
     private void initTopNavigation() {

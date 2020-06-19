@@ -9,13 +9,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
-
 public class PopupWindowUtils {
     private PopupWindow ppupWindow;
     private View viewContainer, layoutView;
     private Context context;
+
+    private boolean isShowing;
 
     public PopupWindowUtils(Context context, View viewContainer, int layoutId) {
         this.context = context;
@@ -25,24 +24,43 @@ public class PopupWindowUtils {
         initTouch();
     }
 
-
     public View getLayoutView() {
         return layoutView;
     }
 
-    public void showLocation (int gravity) {
-        if (this.ppupWindow != null) {
+    public void showLocation(int gravity) {
+        if (ppupWindow != null) {
             ppupWindow.showAtLocation(viewContainer, gravity, 0, 0);
         }
     }
 
-    public PopupWindow setTouchModel(boolean touchModel){
-        if(ppupWindow != null){
+    public void disMiss() {
+        if (ppupWindow != null) {
+            ppupWindow.dismiss();
+        }
+    }
+
+    public PopupWindow setTouchModel(boolean touchModel) {
+        if (ppupWindow != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 ppupWindow.setTouchModal(touchModel);
+
             }
         }
         return ppupWindow;
+    }
+
+    public void setOnDismissListener(PopupWindow.OnDismissListener onDismissListener) {
+        if (ppupWindow != null) {
+            ppupWindow.setOnDismissListener(onDismissListener);
+        }
+    }
+
+    public boolean isShowing() {
+        if (ppupWindow != null) {
+            isShowing = ppupWindow.isShowing();
+        }
+        return isShowing;
     }
 
     private void initTouch() {
@@ -51,4 +69,6 @@ public class PopupWindowUtils {
         this.ppupWindow.setOutsideTouchable(true);
         this.ppupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
+
+
 }
